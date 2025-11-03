@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Report</title>
+  </head>
+  <body>
+    <h1>Submit a report</h1>
+    <form method="post">
+      <!-- FLAW4: Missing CSRF token - allows Cross-Site Request Forgery attacks -->
+      <!-- FIX: Uncomment the line below -->
+      <!-- {% csrf_token %} -->
+      <textarea name="data" placeholder="Enter your report here"></textarea
+      ><br />
+      <button type="submit">Send</button>
+    </form>
+  </body>
+</html>

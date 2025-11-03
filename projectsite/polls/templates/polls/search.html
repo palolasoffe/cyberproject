@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search</title>
+  </head>
+  <body>
+    <h1>Search results</h1>
+    <!-- FLAW 1: XSS - Using |safe filter disables auto-escaping, allowing script injection -->
+    <!-- FIX: Remove |safe filter to use Django's auto-escaping -->
+    <!-- <p><strong>Search query:</strong> {{ q }}</p> -->
+    <p><strong>Search query:</strong> {{ q|safe }}</p>
+  </body>
+</html>

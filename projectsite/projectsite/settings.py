@@ -19,13 +19,27 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+"""
+FLAW 5: Security Misconfiguration
+
+The following security misconfigurations exist in this settings file:
+1. DEBUG = True in production exposes sensitive error pages with stack traces,
+   settings, and database queries to attackers
+2. SECRET_KEY is hardcoded in source code and exposed in version control
+3. ALLOWED_HOSTS = [] accepts all hosts, enabling Host Header attacks
+
+These misconfigurations expose sensitive information and create attack vectors.
+"""
+# FIX: change SECRET_KEY, DEBUG and ALLOWED_HOSTS to these:
+# import os
+# SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fallback-secret-for-dev-only')
+# DEBUG = False
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
 SECRET_KEY = 'django-insecure-_#v21hank^hk0nt6*h$!ni@zik&ir)j^6jhp*3mpebch3=pz72'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+DEBUG = False
 ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -100,6 +114,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = '/polls/login/'
+LOGIN_REDIRECT_URL = '/polls/'
+LOGOUT_REDIRECT_URL = '/polls/login/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/

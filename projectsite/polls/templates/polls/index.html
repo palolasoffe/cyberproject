@@ -1,13 +1,16 @@
-{% if latest_question_list %}
-<ul>
-  {% for question in latest_question_list %}
-  <li>
-    <a href="{% url 'polls:detail' question.id %}"
-      >{{ question.question_text }}</a
-    >
-  </li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>No polls are available</p>
-{% endif %}
+<!DOCTYPE html>
+<html>
+  <head><title>Dashboard</title></head>
+  <body>
+    <h1>Welcome, {{ request.user.username }}!</h1>
+    <p>This is a minimal dashboard. Use the form below to submit a report (demo).</p>
+
+    <form method="post" action="{% url 'polls:report' %}">
+      {% csrf_token %}
+      <textarea name="data" placeholder="Enter report details"></textarea><br>
+      <button type="submit">Send report</button>
+    </form>
+
+    <p><a href="{% url 'polls:leak' %}">(Demo) View leaked secret</a></p>
+  </body>
+</html>
