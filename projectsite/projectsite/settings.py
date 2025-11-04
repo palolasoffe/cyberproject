@@ -37,7 +37,7 @@ These misconfigurations expose sensitive information and create attack vectors.
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 SECRET_KEY = 'django-insecure-_#v21hank^hk0nt6*h$!ni@zik&ir)j^6jhp*3mpebch3=pz72'
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = []
 
 
