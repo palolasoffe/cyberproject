@@ -4,7 +4,7 @@ Installation instructions: basic Django-project instructions
 The flaws 1, 2, 3 and 5 are from OWASP top ten list, 2017 version. Flaw 4 is CSRF.
 
 FLAW 1:
-Link to flaw 1: https://github.com/palolasoffe/cyberproject/blob/main/projectsite/polls/views.py - lines 25-37
+Link to flaw 1: (https://github.com/palolasoffe/cyberproject/blob/b913b707e8d11b03a84e7cf2a2627e1c3984d946/projectsite/polls/views.py#L26)
 Description of flaw 1:
 Cross-Site Scripting (XSS) is a vulnerability that allows malicious actors to inject client-side scripts into websites. In my project the search view reads a query parameter (q = request.GET.get('q', '')) and the corresponding template renders it with the |safe filter. By using |safe Django’s auto-escaping is diasbled and the site will render raw HTML/JS from user input into the page. An attacker can provide a payload such as:
 /polls/search/?q=<script>alert('XSS')</script>
@@ -16,7 +16,7 @@ With:
 <p><strong>Search query:</strong> {{ q }}</p>
 
 FLAW 2:
-Link to flaw 2: https://github.com/palolasoffe/cyberproject/blob/main/projectsite/polls/views.py - lines 40-67
+Link to flaw 2: (https://github.com/palolasoffe/cyberproject/blob/b913b707e8d11b03a84e7cf2a2627e1c3984d946/projectsite/polls/views.py#L42)
 Description of flaw 2:
 Broken Authentication. The login view demonstrates two issues:
 1.	Hardcoded/demo credentials allowed: if user is not None or (username == 'demo' and password == 'demo') this bypasses proper authentication.
@@ -34,7 +34,7 @@ else:
 Remove the hardcoded demo account and do not manipulate request.session manually for login state. Ensure the view imports the login helper correctly and that LOGIN_URL and session settings are properly configured. By replacing the code in lines 62-67 with the lines 56-61 the hardcoded credentials are disabled, and the authentication is only based on registered users. Only use strong password for superuser.
 
 FLAW 3:
-Link to flaw 3: https://github.com/palolasoffe/cyberproject/blob/main/projectsite/polls/views.py  - lines 73-88
+Link to flaw 3: (https://github.com/palolasoffe/cyberproject/blob/b913b707e8d11b03a84e7cf2a2627e1c3984d946/projectsite/polls/views.py#L75)
 Description of flaw 3:
 Sensitive Data Exposure means that attackers may steal or modify weakly protected data to conduct crimes. In this site the leak_secret view returns the application secret key in plain text, without encryption. These lines in the code allow attackers to get sensitive information unprotected:
 secret = getattr(settings, 'SECRET_KEY', 'no-secret')
@@ -50,7 +50,7 @@ return HttpResponse('No secret information here :(')
 Also ensure SECRET_KEY is not hard-coded in version control (see FLAW 5). Keep secrets in environment variables or a secure secret store.
 
 FLAW 4:
-Link to flaw 4: https://github.com/palolasoffe/cyberproject/blob/main/projectsite/polls/views.py - lines 106-118
+Link to flaw 4: (https://github.com/palolasoffe/cyberproject/blob/b913b707e8d11b03a84e7cf2a2627e1c3984d946/projectsite/polls/views.py#L107)
 Description of flaw 4:
 Cross-Site Request Forgery (CSRF) allows an attacker to send unauthorized requests to a web application from another site. The report view has been decorated with @csrf_exempt (disabling Django’s CSRF protection). That allows a remote attacker to submit forms on behalf of an authenticated user by luring them to a malicious page that auto-submits a form to /polls/report/.
 How to fix it:
@@ -59,7 +59,7 @@ Remove the @csrf_exempt decorator above the function report in views.py
 Add {% csrf_token %} inside the <form> tag in report.html
 
 FLAW 5:
-https://github.com/palolasoffe/cyberproject/blob/main/projectsite/projectsite/settings.py - lines 22-41
+Link to flaw 5: (https://github.com/palolasoffe/cyberproject/blob/b913b707e8d11b03a84e7cf2a2627e1c3984d946/projectsite/projectsite/settings.py#L23)
 Description of flaw 5:
 Security Misconfiguration happens when a system or application isn’t set up securely. This can include things like using default passwords, leaving unnecessary features enabled, showing too much error information, or failing to update software. There are a few issues in the configurations: hardcoded SECRET_KEY in source code / version control, mis-set DEBUG in production, and permissive/empty ALLOWED_HOSTS. Hardcoded SECRET_KEY allows anyone to inspect it by viewing source code. DEBUG = True in production exposes error pages with stack traces, settings, and database queries to attackers. ALLOWED_HOSTS = [] accepts all hosts, enabling Host Header attacks.
 How to fix these:
